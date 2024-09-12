@@ -17,11 +17,9 @@ Product Hunt 每日热榜是一个基于 GitHub Action 的自动化工具，它�
 - **自动获取数据**：每天自动获取前一天的 Product Hunt Top 30 产品数据。
 - **关键词生成**：生成简洁易懂的中文关键词，帮助用户更好地理解产品内容。
 - **高质量翻译**：使用 OpenAI 的 GPT-4 模型对产品描述进行高质量翻译。
-- **Markdown 文件生成**：生成包含产品数据、关键词和翻译描述的 Markdown 文件，方便在网站或其他平台上发布。
+- **Markdown 文件生成**：生成包含产品数据、关键词和翻译描述的 Markdown 文件。
 - **每日自动化**：通过 GitHub Actions 自动生成并提交每日的 Markdown 文件。
-- **可配置工作流**：支持手动触发或通过 GitHub Actions 定时生成内容。
-- **灵活定制**：脚本易于扩展或修改，可以包括额外的产品细节或调整文件格式。
-- **自动发布到 WordPress**：生成的 Markdown 文件可以自动发布到 WordPress 网站。
+- **自动部署到 Vercel**：生成的内容会自动部署到 Vercel，实现快速的静态网站更新。
 
 ## 快速开始
 
@@ -31,24 +29,7 @@ Product Hunt 每日热榜是一个基于 GitHub Action 的自动化工具，它�
 - GitHub 账户及仓库
 - OpenAI API Key
 - Product Hunt API 凭证
-- WordPress 网站及凭证（用于自动发布）
-
-### 安装
-
-1. **克隆仓库：**
-
-```bash
-git clone https://github.com/ViggoZ/producthunt-daily-hot.git
-cd producthunt-daily-hot
-```
-
-2. **安装 Python 依赖：**
-
-确保您的系统已安装 Python 3.x。然后安装所需的依赖包：
-
-```bash
-pip install -r requirements.txt
-```
+- Vercel 账户及项目设置
 
 ### 设置
 
@@ -60,17 +41,23 @@ pip install -r requirements.txt
    - `PRODUCTHUNT_CLIENT_ID`: 您的 Product Hunt API 客户端 ID。
    - `PRODUCTHUNT_CLIENT_SECRET`: 您的 Product Hunt API 客户端密钥。
    - `PAT`: 用于推送更改到仓库的个人访问令牌。
-   - `WORDPRESS_URL`: 您的 WordPress 网站 URL。
-   - `WORDPRESS_USERNAME`: 您的 WordPress 用户名。
-   - `WORDPRESS_PASSWORD`: 您的 WordPress 密码。
+   - `VERCEL_TOKEN`: 您的 Vercel 部署令牌。
+   - `VERCEL_ORG_ID`: 您的 Vercel 组织 ID。
+   - `VERCEL_PROJECT_ID`: 您的 Vercel 项目 ID。
 
-2. **GitHub Actions 工作流：**
+2. **Vercel 项目设置：**
 
-   工作流定义在 `.github/workflows/generate_markdown.yml` 和 `.github/workflows/publish_to_wordpress.yml` 中。该工作流每天 UTC 时间 07:01（北京时间 15:01）自动运行，也可以手动触发。
+   - 在 Vercel 上创建一个新项目，并将其连接到您的 GitHub 仓库。
+   - 配置项目以使用生成的 Markdown 文件作为内容源。
+   - 记录下项目的组织 ID 和项目 ID，并添加到 GitHub Secrets 中。
+
+3. **GitHub Actions 工作流：**
+
+   工作流定义在 `.github/workflows/generate_markdown.yml` 和 `.github/workflows/deploy_to_vercel.yml` 中。这些工作流会自动运行，生成内容并部署到 Vercel。
 
 ### 使用
 
-设置完成后，GitHub Action 将自动生成并提交包含 Product Hunt 每日热门产品的 Markdown 文件，并自动发布到 WordPress 网站。文件存储在 `data/` 目录下。
+设置完成后，GitHub Action 将自动生成并提交包含 Product Hunt 每日热门产品的 Markdown 文件，并自动部署到 Vercel。文件存储在 `data/` 目录下。
 
 ### 自定义
 

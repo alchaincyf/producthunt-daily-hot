@@ -1,5 +1,6 @@
+# 导入所需的库
 import os
-# from dotenv import load_dotenv
+# from dotenv import load_dotenv  # 用于加载环境变量，当前被注释掉
 import requests
 from datetime import datetime, timedelta, timezone
 from openai import OpenAI
@@ -7,16 +8,30 @@ from bs4 import BeautifulSoup
 import pytz
 
 # 加载 .env 文件
-# load_dotenv()
+# load_dotenv()  # 当前被注释掉，如果需要从.env文件加载环境变量，可以取消注释
 
 # 创建 OpenAI 客户端实例
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
+# 从环境变量获取 Product Hunt 的客户端 ID 和密钥
 producthunt_client_id = os.getenv('PRODUCTHUNT_CLIENT_ID')
 producthunt_client_secret = os.getenv('PRODUCTHUNT_CLIENT_SECRET')
 
 class Product:
     def __init__(self, id: str, name: str, tagline: str, description: str, votesCount: int, createdAt: str, featuredAt: str, website: str, url: str, **kwargs):
+        """
+        初始化 Product 类的实例
+        :param id: 产品ID
+        :param name: 产品名称
+        :param tagline: 产品标语
+        :param description: 产品描述
+        :param votesCount: 投票数
+        :param createdAt: 创建时间
+        :param featuredAt: 被推荐时间
+        :param website: 产品网站
+        :param url: Product Hunt 上的 URL
+        :param kwargs: 其他可能的参数
+        """
         self.name = name
         self.tagline = tagline
         self.description = description
@@ -199,6 +214,7 @@ def generate_markdown(products, date_str):
 
 
 def main():
+    """主函数，执行整个流程"""
     # 获取昨天的日期并格式化
     yesterday = datetime.now(timezone.utc) - timedelta(days=1)
     date_str = yesterday.strftime('%Y-%m-%d')
